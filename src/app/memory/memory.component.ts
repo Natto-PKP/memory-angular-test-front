@@ -15,6 +15,7 @@ export class MemoryComponent implements OnInit {
   history: { x: number; y: number; action: 'flip' | 'reverse' }[] = [];
   moves = 0;
   pause = true;
+  replay = false;
   time = 0;
   timer: any | null = null;
   size: number = 4;
@@ -61,6 +62,7 @@ export class MemoryComponent implements OnInit {
     this.history = [];
     this.moves = 0;
     this.pause = true;
+    this.replay = false;
     this.time = 0;
     this.size = 4;
   }
@@ -116,16 +118,21 @@ export class MemoryComponent implements OnInit {
 
   handleRestartClick() {
     if (!this.end) return;
-    this.clearGame();
-    this.startGame();
+    setTimeout(() => {
+      this.clearGame();
+      this.startGame();
+    }, 50);
   }
 
   async handleReviewClick() {
     const gameBoard = document.getElementById('game-board') as HTMLElement;
-    if (!this.end || !gameBoard) return;
+    if (!this.end || !gameBoard || this.replay) return;
+    this.replay = true;
 
     for (let y = 0; y < gameBoard.children.length; y += 1) {
+      if (!this.replay) break;
       for (let x = 0; x < gameBoard.children[y].children.length; x += 1) {
+        if (!this.replay) break;
         const element = gameBoard.children[y].children[x];
         element.innerHTML = '';
         element.classList.remove('game__board__card--active');
@@ -133,6 +140,7 @@ export class MemoryComponent implements OnInit {
     }
 
     for await (const { x, y, action } of this.history) {
+      if (!this.replay) break;
       const element = gameBoard.children[y].children[x];
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (action === 'reverse') {
@@ -143,6 +151,8 @@ export class MemoryComponent implements OnInit {
         element.classList.add('game__board__card--active');
       }
     }
+
+    this.replay = false;
   }
 
   handleSendResultClick() {
@@ -183,6 +193,7 @@ export class MemoryComponent implements OnInit {
 
   stopGame() {
     this.end = true;
+    this.replay = false;
     this.stopTimer();
   }
 
