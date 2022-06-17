@@ -1,0 +1,52 @@
+<span *ngIf="error">{{ error }}</span>
+
+<section *ngIf="!error" class="game">
+  <header *ngIf="end" class="game__header">
+    <button type="button" (click)="handleRestartClick()" class="game__button">
+      Restart
+    </button>
+    <button
+      type="button"
+      (click)="handleSendResultClick()"
+      class="game__button"
+    >
+      Send result
+    </button>
+  </header>
+
+  <div *ngIf="!pause" id="game-board" class="game__board">
+    <div class="game__board__row" *ngFor="let row of cards">
+      <button
+        type="button"
+        class="game__board__card"
+        *ngFor="let card of row"
+        (click)="handleCardClick(card.y, card.x)"
+      ></button>
+    </div>
+  </div>
+
+  <div *ngIf="pause">No cards - Reload</div>
+
+  <footer class="game__footer">
+    <button
+      type="button"
+      *ngIf="end"
+      (click)="handleReviewClick()"
+      class="game__button"
+    >
+      Replay
+    </button>
+    <button
+      type="button"
+      *ngIf="!end"
+      (click)="handleUndoClick()"
+      class="game__button"
+    >
+      Undo
+    </button>
+
+    <span class="game__footer__details">
+      {{ moves }} moves - {{ time / 1000 | number: "0.2-2" }}s
+    </span>
+  </footer>
+</section>

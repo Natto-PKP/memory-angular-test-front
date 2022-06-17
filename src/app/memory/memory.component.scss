@@ -1,0 +1,68 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__button {
+    padding: 0.4rem 0.6rem;
+    background-color: lightblue;
+    border: 1px solid lightblue;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    transition: 0.2s ease-out;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__board {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    &__row {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    &__card {
+      height: 6rem;
+      width: 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: transparent 2px solid;
+      border-radius: 4px;
+      background-color: lightcoral;
+      font-size: 1.4rem;
+      cursor: pointer;
+
+      transition: 0.2s ease-out;
+
+      &:hover {
+        border-color: red;
+      }
+
+      &--active {
+        background-color: lightgreen;
+        border-color: green;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
